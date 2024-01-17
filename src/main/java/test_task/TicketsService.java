@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.Duration;
 import java.util.Comparator;
 import java.util.DoubleSummaryStatistics;
@@ -21,11 +22,11 @@ public class TicketsService {
     {
         objectMapper.registerModule(new JavaTimeModule());
     }
-    public List<Ticket> getTicketsFromJson(String path) {
+    public List<Ticket> getTicketsFromJson(String filePath) {
+        InputStream is = this.getClass().getResourceAsStream(filePath);
         TicketDTO ticketDTO=new TicketDTO();
-        File file = new File(path);
         try {
-            ticketDTO = objectMapper.readValue(file, TicketDTO.class);
+            ticketDTO = objectMapper.readValue(is, TicketDTO.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
